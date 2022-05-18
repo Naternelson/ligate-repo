@@ -1,4 +1,4 @@
-import { Home, Settings, ChatBubble } from "@mui/icons-material";
+import { Home, Settings, ChatBubble, Feed } from "@mui/icons-material";
 import { Badge, Box, BoxProps, ButtonBase, Divider, IconButton, IconButtonProps, Paper, PaperProps, Stack, Tooltip, Typography } from "@mui/material";
 import { ReactElement, ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -37,6 +37,7 @@ function SmallDisplay(){
                 <LightDivier/>
                 <Stack sx={{mt:1}}>
                     <ButtonLink title="Chats"  to="/chats" icon={<Badge color={"secondary"} variant={"dot"}><ChatBubble/> </Badge>}/>
+                    <ButtonLink title="Reports"  to="/feed" icon={<Feed/>}/>
                 </Stack>
         </Box>
     )
