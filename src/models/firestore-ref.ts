@@ -62,7 +62,7 @@ export default class FirebaseDocument{
         const uid = currentUser.uid 
         if(this.userPermission() === null) throw new Error("Access denied, user does not have sufficent access")
         const data = this.data.toObj()
-        return runTransaction(this.db, async (t) => {
+        await runTransaction(this.db, async (t) => {
             await this.saveDependencies(t, uid)
             t.set(this.ref, data)
         })
