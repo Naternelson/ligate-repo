@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { CollectionReference, doc, DocumentReference, Firestore, getDoc, getFirestore, runTransaction, serverTimestamp, Transaction, writeBatch, WriteBatch } from "firebase/firestore";
+import { collection, CollectionReference, doc, DocumentReference, Firestore, getDoc, getFirestore, runTransaction, serverTimestamp, Transaction, writeBatch, WriteBatch } from "firebase/firestore";
 import DocumentDataModel, { Attributes, SubscriberObject } from "./data-model";
 import FirebaseCollection from "./firestore-collection";
 
@@ -57,6 +57,10 @@ export default class FirebaseDocument{
         if(u === undefined) return null 
         return this.data.permissions[u] || null
     }
+    #checkMeta(throwError:boolean = false){
+        const {expireOn, deleteOn} = this.data.meta 
+        if(!expireOn && !deleteOn) return false 
+    }
     async save(){
         const currentUser = getAuth().currentUser
         if(currentUser === null) throw new Error("User must be signed in in order to save document")
@@ -95,13 +99,38 @@ export default class FirebaseDocument{
     provideFor(subscriber:DocumentReference, subObj: Omit<SubscriberObject, "documentPath">){
         return FirebaseDocument.subscriptionTransaction(this.ref, subscriber, subObj)
     }
-    buildChild(coll: string){
-
+    async buildChild(coll: string, attributes:Attributes={}):Promise<FirebaseDocument>{
+        if(coll in this.subcollections){
+            return this.subcollections[coll].build(attributes)
+        }
+        this.#createSubcollection(coll)
+        await this.save()
+        return this.buildChild(coll, attributes)
+    }
+    #createSubcollection(coll:string){
+        const collect = collection(this.db, this.ref.path, coll)
+        const fCollection = new FirebaseCollection(collect)
+        this.subcollections[coll] = fCollection 
+        return fCollection
+    }
+    async buildSubcollection(coll:string){
+        const set = new Set(this.data.subcollections)
+        const count = set.size
+        set.add(coll)
+        const newCount = set.size
+        this.data.subcollections = Array.from(set)
+        const fCollection = this.#createSubcollection(coll)
+        if(count === newCount) return fCollection
+        await this.save()
+        return fCollection
     }
 
     constructor(ref:DocumentReference, data: DocumentDataModel){
         this.ref = ref
         this.data = data 
+        this.data.subcollections.forEach((id)=>{
+            this.#createSubcollection(id)
+        })
         this.db = getFirestore()
     }
 }
