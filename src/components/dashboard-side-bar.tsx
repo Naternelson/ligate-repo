@@ -22,7 +22,7 @@ export default function DashboardSideBar(){
 function SmallDisplay(){
     const boxProps:BoxProps = {
         sx:{
-            display: displayOn("xs","sm", "md"),
+            display: displayOn("xs","sm", "md", "lg", "xl"),
             width: '75px',
             bgcolor: 'inherit',
             overflow: 'auto'
