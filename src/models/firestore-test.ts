@@ -16,9 +16,11 @@ export default async function testFirebase(){
         await newProfile(pRef)
         await newStake(sRef)
         await subscribeTest(sRef, pRef, uid)
-        return true 
-    } catch {
-        return false
+        await updateDeps(pRef)
+        return "true" 
+    } catch(err) {
+        console.error(err)
+        return "false"
     }
     
     
@@ -57,6 +59,13 @@ function subscribeTest(stakeRef:DocumentReference, profileRef:DocumentReference,
         destinationPath: "attributes.roles." +uid+".name"
     }
     return FirebaseDocument.subscriptionTransaction(profileRef, stakeRef, subObj)
+}
+
+async function updateDeps(profileRef:DocumentReference){
+    const profile = await FirebaseDocument.retrieve(profileRef)
+    if(profile === null) throw new Error("Profile aint there")
+    profile.data.attributes.name.display = "Hello World"
+    await profile.save()
 }
 
 

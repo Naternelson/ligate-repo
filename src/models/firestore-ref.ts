@@ -38,7 +38,8 @@ export default class FirebaseDocument{
     static async retrieve(ref:DocumentReference){
         const document = await getDoc(ref)
         if(document.exists()){
-            return new this(ref, document.data() as DocumentDataModel)
+            const doc = DocumentDataModel.build(document.data())
+            return new this(ref, doc)
         }
         return null 
     }
@@ -70,13 +71,12 @@ export default class FirebaseDocument{
 
     async saveDependencies(writer:Transaction, uid:string){
         const taskList:SubscriberObject[] = []
-        this.data.subscribers.forEach((docSub)=>{
-            docSub.forEach(async sub => {
-                const subSnap = await writer.get(doc(this.db, sub.documentPath))
-                const value = this.data.fromDotNotation(sub.attributePath)
-                if(subSnap.get(`${sub.destinationPath}.data`) !== value) taskList.push(sub)
-            })
-        })
+        await Promise.all(this.data.subscribers.map(async (sub)=>{
+            const subSnap = await writer.get(doc(this.db, sub.documentPath))
+            const value = this.data.fromDotNotation(sub.attributePath)
+            const subData = subSnap.get(`${sub.destinationPath}.data`)
+            if(subData !== value) taskList.push(sub)
+        })) 
         taskList.forEach((task) => {
             const data = this.data.fromDotNotation(task.attributePath)
             const value = {referencePath: this.ref.path, data}
@@ -94,6 +94,9 @@ export default class FirebaseDocument{
     }
     provideFor(subscriber:DocumentReference, subObj: Omit<SubscriberObject, "documentPath">){
         return FirebaseDocument.subscriptionTransaction(this.ref, subscriber, subObj)
+    }
+    buildChild(coll: string){
+
     }
 
     constructor(ref:DocumentReference, data: DocumentDataModel){

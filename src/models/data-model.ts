@@ -17,7 +17,7 @@ export interface MetaAttribute {
 export type Attributes = {[key:string|symbol]: any}
 export interface DataModel {
     attributes: Attributes,
-    subscribers: Subscriber[],
+    subscribers: SubscriberObject[],
     permissions: {[uid:string]: PermissionValue}
     meta: MetaAttribute
 }
@@ -36,7 +36,7 @@ export default class DocumentDataModel{
         return model 
     }
     attributes: Attributes = {}
-    subscribers: Subscriber[] = []
+    subscribers: SubscriberObject[] = []
     permissions: {[uid:string]: PermissionValue} = {}
     subcollections: string[] = []
     meta: MetaAttribute = {createdOn: null, createdBy: null, updatedOn: null, updatedBy: null, deleteOn: null, expireOn:null}
