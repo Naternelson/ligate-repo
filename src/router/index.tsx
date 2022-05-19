@@ -9,7 +9,7 @@ export default function AppRouter(){
         <BrowserRouter>
             <Routes>
                 <Route path="/"element={<DashboardLayout/>}>
-                    <Route path="feed" element={<ReportView/>}/>
+                    <Route path="connections" element={<ReportView/>}/>
                     <Route path="*" element={<Box>Hi there</Box>}/>
                 </Route>
             </Routes>

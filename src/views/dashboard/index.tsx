@@ -8,7 +8,7 @@ import Row from "../../components/row"
 export default function DashboardLayout(){
     const boxProps:BoxProps = {
         height: '100vh',
-        bgcolor: '#c9cdd1'
+        bgcolor: '#ebeff2'
     }
     return (
         <Row {...boxProps}>

@@ -6,7 +6,7 @@ import FirebaseDocument from "../../models/firestore-ref"
 
 const Context = createContext<any>(undefined)
 export default function ReportListener(props:PropsWithChildren<{}>){
-    const[ currentStake, setStake] = useState<any>({})
+    const [currentStake, setStake] = useState<null | FirebaseDocument>(null)
     const [myMembers, setMembers] = useState<any[]>([])
     const [theirMembers, setTheirMembers] = useState<any[]>([])
     const [uid, setUid] = useState<any>(null)
@@ -45,7 +45,7 @@ export default function ReportListener(props:PropsWithChildren<{}>){
                 const doc = new FirebaseDocument(snap.docs[0].ref, data)
                 setStake(doc)
             } else {
-                setStake({})
+                setStake(null)
             }
         })
     },[uid])

@@ -1,6 +1,7 @@
 import { ArrowRight } from "@mui/icons-material";
-import { Box, BoxProps, ButtonBase, ListItemText, Typography, ListItem, Paper, TextField, Stack, ListItemIcon, Tabs, Tab } from "@mui/material";
+import { Box, BoxProps, ButtonBase, ListItemText, Typography, ListItem, Paper, TextField, Stack, ListItemIcon, Tabs, Tab, Divider } from "@mui/material";
 import { useState } from "react";
+import AppTab from "../../components/app-tabs";
 import Column from "../../components/column";
 import Row from "../../components/row";
 import ReportListener, { useReportContext } from "../../listeners/report-view";
@@ -14,17 +15,38 @@ export default function ReportView(){
         <ReportListener>        
             <Box {...wrapperProps}>
                 <Column>
-                    <Paper sx={{m:3}}>
+                <TitleBlock/>
+                    {/* <Paper sx={{m:3}}>
                         <Row>
                             <StakeList active={active} setActive={setActive}/>
                             <MemberSection  active={active}/>
                         </Row>
-                    </Paper>
+                    </Paper> */}
                 </Column>
             </Box>
         </ReportListener>
     )
 }
+
+
+function TitleBlock(){
+    const [value,setValue] = useState(1)
+    const wrapperProps:BoxProps = {
+        p:3
+    }
+    return (
+        <Box {...wrapperProps}>
+            <Typography variant="h1" sx={{color: "rgba(0,0,0,.5)", fontSize: "2.5rem"}}>Connections</Typography>
+            <Tabs sx={{minHeight:0}} value={value}>
+                <ButtonBase onClick={()=>setValue(0)}sx={{p:1}}>h</ButtonBase>
+                <ButtonBase onClick={()=>setValue(1)}sx={{p:1}}>Hehehehehhe</ButtonBase>
+            </Tabs>
+            <Divider/>
+        </Box>
+        
+    )
+}
+
 
 interface StakeListProps{
     setActive: any, 

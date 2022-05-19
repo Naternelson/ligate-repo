@@ -36,8 +36,8 @@ function SmallDisplay(){
                 <ButtonLink title="Settings" to="/settings" icon={<Settings/>}/>
                 <LightDivier/>
                 <Stack sx={{mt:1}}>
-                    <ButtonLink title="Chats"  to="/chats" icon={<Badge color={"secondary"} variant={"dot"}><ChatBubble/> </Badge>}/>
-                    <ButtonLink title="Reports"  to="/feed" icon={<Feed/>}/>
+                    <ButtonLink title="Messages"  to="/chats" icon={<Badge color={"secondary"} variant={"dot"}><ChatBubble/> </Badge>}/>
+                    <ButtonLink title="Stake Connections"  to="/connections" icon={<Feed/>}/>
                 </Stack>
         </Box>
     )
