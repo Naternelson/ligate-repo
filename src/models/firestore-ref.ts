@@ -5,7 +5,7 @@ import FirebaseCollection from "./firestore-collection";
 
 export default class FirebaseDocument{
     static async subscriptionTransaction(provider:DocumentReference, subscriber:DocumentReference, subObject: Omit<SubscriberObject, "documentPath">){
-        return runTransaction(getFirestore(), async(t) => {
+        await runTransaction(getFirestore(), async(t) => {
             const currentUser = getAuth().currentUser 
             if(!currentUser) throw new Error("Must have a signed in user")
             const uid = currentUser.uid 
@@ -13,7 +13,6 @@ export default class FirebaseDocument{
             if(!p.exists) throw new Error("Provider document does not exist")
             const s = await t.get(subscriber)
             if(!s.exists) throw new Error("Subscriber document does not exist")
-
             const providerValue = p.get(subObject.attributePath)
             if(!providerValue) throw new Error("No value found at attributePath")
 
@@ -71,6 +70,9 @@ export default class FirebaseDocument{
             await this.saveDependencies(t, uid)
             t.set(this.ref, data)
         })
+    }
+    saveObject(){
+        return this.data.toObj()
     }
 
     async saveDependencies(writer:Transaction, uid:string){

@@ -193,11 +193,11 @@ export async function createMemberActvityRoom(currentStake:DocumentReference, fo
 
 
 export async function clear(){
-    const cs = ["profiles", "stakes", "wards", "members", "member-subscriptions", "history", "chat-rooms", "chats"]
+    const cs = ["profiles", "stakes", "wards", "members", "users", "member-subscriptions", "history", "chat-rooms", "chats", "rooms", "room"]
     return Promise.all(cs.map(async str => {
         const q = query(collectionGroup(getFirestore(), str))
         const snap = await getDocs(q)
-        snap.forEach(doc => deleteDoc(doc.ref))
+        await Promise.all(snap.docs.map(doc => deleteDoc(doc.ref)))
     }))
 }
 

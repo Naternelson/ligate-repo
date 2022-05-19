@@ -1,8 +1,8 @@
 import * as React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
-import DashboardLayout from "../views/dashboard";
-import ReportView from "../views/dashboard/reports";
+import DashboardLayout from "../views/dashboard/index";
+import ReportView from "../views/dashboard/connections";
 
 export default function AppRouter(){
     return (

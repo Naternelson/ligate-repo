@@ -26,67 +26,67 @@ export default function ReportListener(props:PropsWithChildren<{}>){
     }, [myMembers.length, theirMembers.length])
 
 
-    useEffect(()=>{
-        return onAuthStateChanged(getAuth(), (u)=>{
-            if(u) setUid(u.uid)
-            else setUid(null)
-        })
-    },[])
+    // useEffect(()=>{
+    //     return onAuthStateChanged(getAuth(), (u)=>{
+    //         if(u) setUid(u.uid)
+    //         else setUid(null)
+    //     })
+    // },[])
 
-    useEffect(()=>{
-        if(!uid) return 
-        const db = getFirestore()
-        const stakes = collection(db, "stakes")
-        const q = query(stakes, where(`permissions.${uid}`,"!=", false ))
-        return onSnapshot(q, (snap)=>{
+    // useEffect(()=>{
+    //     if(!uid) return 
+    //     const db = getFirestore()
+    //     const stakes = collection(db, "stakes")
+    //     const q = query(stakes, where(`permissions.${uid}`,"!=", false ))
+    //     return onSnapshot(q, (snap)=>{
             
-            if(!snap.empty) {
-                const data = DocumentDataModel.build(snap.docs[0].data())
-                const doc = new FirebaseDocument(snap.docs[0].ref, data)
-                setStake(doc)
-            } else {
-                setStake(null)
-            }
-        })
-    },[uid])
+    //         if(!snap.empty) {
+    //             const data = DocumentDataModel.build(snap.docs[0].data())
+    //             const doc = new FirebaseDocument(snap.docs[0].ref, data)
+    //             setStake(doc)
+    //         } else {
+    //             setStake(null)
+    //         }
+    //     })
+    // },[uid])
 
-    useEffect(()=>{
-        const id = currentStake?.ref?.id 
-        if(!id) return 
-        const db = getFirestore()
-        const stakes = collection(db, "member-subscriptions")
-        const q = query(stakes, where(`attributes.homeStake.id`,"==", id))
-        return onSnapshot(q,(snap)=>{
-            if(!snap.empty) {
-                const docs = snap.docs.map(doc => {
-                    const data = DocumentDataModel.build(doc.data())
-                    return new FirebaseDocument(doc.ref, data)
-                })
-                setMembers(docs)
-            } else {
-                setMembers([])
-            }
-        })
-    }, [currentStake?.ref?.id])
+    // useEffect(()=>{
+    //     const id = currentStake?.ref?.id 
+    //     if(!id) return 
+    //     const db = getFirestore()
+    //     const stakes = collection(db, "member-subscriptions")
+    //     const q = query(stakes, where(`attributes.homeStake.id`,"==", id))
+    //     return onSnapshot(q,(snap)=>{
+    //         if(!snap.empty) {
+    //             const docs = snap.docs.map(doc => {
+    //                 const data = DocumentDataModel.build(doc.data())
+    //                 return new FirebaseDocument(doc.ref, data)
+    //             })
+    //             setMembers(docs)
+    //         } else {
+    //             setMembers([])
+    //         }
+    //     })
+    // }, [currentStake?.ref?.id])
 
-    useEffect(()=>{
-        const id = currentStake?.ref?.id 
-        if(!id) return 
-        const db = getFirestore()
-        const stakes = collection(db, "member-subscriptions")
-        const q = query(stakes, where(`attributes.foreignStake.id`,"==", id))
-        return onSnapshot(q,(snap)=>{
-            if(!snap.empty) {
-                const docs = snap.docs.map(doc => {
-                    const data = DocumentDataModel.build(doc.data())
-                    return new FirebaseDocument(doc.ref, data)
-                })
-                setTheirMembers(docs)
-            } else {
-                setTheirMembers([])
-            }
-        })
-    }, [currentStake?.ref?.id])
+    // useEffect(()=>{
+    //     const id = currentStake?.ref?.id 
+    //     if(!id) return 
+    //     const db = getFirestore()
+    //     const stakes = collection(db, "member-subscriptions")
+    //     const q = query(stakes, where(`attributes.foreignStake.id`,"==", id))
+    //     return onSnapshot(q,(snap)=>{
+    //         if(!snap.empty) {
+    //             const docs = snap.docs.map(doc => {
+    //                 const data = DocumentDataModel.build(doc.data())
+    //                 return new FirebaseDocument(doc.ref, data)
+    //             })
+    //             setTheirMembers(docs)
+    //         } else {
+    //             setTheirMembers([])
+    //         }
+    //     })
+    // }, [currentStake?.ref?.id])
 
     return (
         <Context.Provider value={{current: currentStake, myMembers, theirMembers, stakes}}>

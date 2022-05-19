@@ -1,12 +1,13 @@
 import { ArrowRight } from "@mui/icons-material";
-import { Box, BoxProps, ButtonBase, ListItemText, Typography, ListItem, Paper, TextField, Stack, ListItemIcon, Tabs, Tab, Divider } from "@mui/material";
+import { Box, BoxProps, ButtonBase, ListItemText, Typography, ListItem, Paper, TextField, Stack, ListItemIcon, Tabs, Tab, Divider, Button } from "@mui/material";
 import { useState } from "react";
-import AppTab from "../../components/app-tabs";
-import Column from "../../components/column";
-import Row from "../../components/row";
-import ReportListener, { useReportContext } from "../../listeners/report-view";
+import AppTabWrapper, { AppTabs, AppTab, TabPanel } from "../../../components/app-tabs";
+import Column from "../../../components/column";
+import ReportListener, { useReportContext } from "../../../listeners/report-view";
+import { clear } from "../../../models/firestore-test";
+import seed from "../../../models/seed";
 
-export default function ReportView(){
+export default function ConnectionsView(){
     const [active, setActive] = useState<string|null>(null)
     const wrapperProps:BoxProps = {
         overflow: 'auto'
@@ -15,13 +16,18 @@ export default function ReportView(){
         <ReportListener>        
             <Box {...wrapperProps}>
                 <Column>
-                <TitleBlock/>
+                <AppTabWrapper>
+                    <TitleBlock/>
+                    <TabPanel value={0}>
+                        <OverviewBlock/>
+                    </TabPanel>
                     {/* <Paper sx={{m:3}}>
                         <Row>
                             <StakeList active={active} setActive={setActive}/>
                             <MemberSection  active={active}/>
                         </Row>
                     </Paper> */}
+                    </AppTabWrapper>
                 </Column>
             </Box>
         </ReportListener>
@@ -30,22 +36,32 @@ export default function ReportView(){
 
 
 function TitleBlock(){
-    const [value,setValue] = useState(1)
     const wrapperProps:BoxProps = {
         p:3
     }
     return (
         <Box {...wrapperProps}>
             <Typography variant="h1" sx={{color: "rgba(0,0,0,.5)", fontSize: "2.5rem"}}>Connections</Typography>
-            <Tabs sx={{minHeight:0}} value={value}>
-                <ButtonBase onClick={()=>setValue(0)}sx={{p:1}}>h</ButtonBase>
-                <ButtonBase onClick={()=>setValue(1)}sx={{p:1}}>Hehehehehhe</ButtonBase>
-            </Tabs>
+            <AppTabs>
+                <AppTab label={"Overview"}/>
+                <AppTab label={"In my stake"}/>
+                <AppTab label={"Out of my stake"}/>
+            </AppTabs>
             <Divider/>
         </Box>
         
     )
 }
+
+function OverviewBlock(){
+    return (
+        <Box sx={{mx:5}}>
+            <Button onClick={()=> seed() }>Seed</Button>
+            <Button onClick={()=> clear() }>Clear</Button>
+        </Box>
+    )
+}
+
 
 
 interface StakeListProps{

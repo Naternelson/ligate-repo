@@ -11,7 +11,7 @@ export default function DashboardHeader() {
     return (<>
         <Paper {...wrapperProps}>
             <Toolbar sx={{justifyContent: 'space-between', width: 'inherit'}}>
-                <Row justifyContent={"center"} alignItems="end"><Typography variant="body2" sx={{color: 'grey.600', fontWeight: 'bold'}}>LIGATE</Typography><ArrowDropDown/></Row>
+                <Row justifyContent={"center"} alignItems="end"><Typography variant="body2" sx={{color: 'grey.600', fontWeight: 'bold'}}>Demo Stake</Typography><ArrowDropDown/></Row>
                 <Row gap={2}>
                     <NotificationIcon/>
                     <ProfileIcon/>

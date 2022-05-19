@@ -1,5 +1,5 @@
-import { ButtonBase, Tabs, TabsProps, BoxProps, Box } from "@mui/material";
-import { Children, createContext, PropsWithChildren, useContext, useEffect, useState, ReactNode, useRef } from "react";
+import { ButtonBase, Tabs, TabsProps, BoxProps, Box, Tab, TabProps } from "@mui/material";
+import { Children, createContext, PropsWithChildren, useContext, useEffect, useState, ReactNode, useRef, cloneElement, isValidElement } from "react";
 
 interface TabContext{
     index: number, 
@@ -32,19 +32,18 @@ export function useTabContext(){
 
 export function AppTabs(props:PropsWithChildren<TabsProps>){
     const context = useTabContext()
-    const count = Children.count(props.children)
+    const children = props.children
+    const count = Children.count(children)
     
     useEffect(()=>{
         context.setCount(count)
     },[count])
-
     return (
         <Tabs value={context.index}>
-            {props.children && Children.map(props.children, (child,index) =>(
-                <ButtonBase centerRipple sx={{p:1}} onClick={() => context.setIndex(index)}>
-                    {child}
-                </ButtonBase>
-            ))}
+            {children && Children.map(children, (child, index) => {
+                if(isValidElement(child)) return cloneElement(child, {onClick:() => context.setIndex(index)})
+                return null
+            })}
         </Tabs>
     )
 }
@@ -62,10 +61,27 @@ export function TabPanel(props:PropsWithChildren<TabPanelProps>){
 
     if(index === value || touched.current === true) {
         return (
-            <Box sx={{display: index === value ? "block" : "none"}} {...bProps}>
+            <Box  sx={{display: index === value ? "block" : "none"}} {...bProps}>
                 {children}
             </Box>
         )
     }
     return null 
 }
+
+export function AppTab(props:TabProps){
+    const p:TabProps = {
+        disableRipple:true, 
+        ...props,
+        sx:{
+            textTransform: 'none',
+            fontSize: ".8rem",
+            "&:hover": {bgcolor: 'rgba(25, 118, 210,0.05)'},
+            ...(props.sx||{})
+        }
+    }
+    return (
+        <Tab {...p}/>
+    )
+}
+
