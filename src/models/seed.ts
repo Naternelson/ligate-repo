@@ -32,15 +32,15 @@ async function createUserDocument(uid:string, db:Firestore){
         gender: "male",
         birthdate: faker.date.past(100)
     })
+    FirebaseDocument.subscription(p, u, {
+            attributePath:  "attributes",
+            destinationPath: "attributes.profile"
+    })
     const b = writeBatch(db)
     b.set(u.ref, u.saveObject())
     b.set(p.ref, p.saveObject())
     try {
         await b.commit()
-        await FirebaseDocument.subscriptionTransaction(p.ref, u.ref, {
-            attributePath:  "attributes",
-            destinationPath: "attributes.profile"
-        })
         return u
     } catch (err) {
         console.warn("Error Creating a user documents")
@@ -86,21 +86,20 @@ async function createStakes(uid:string, userDoc:FirebaseDocument, db:Firestore):
         memberCount: 0
     })
     
-
+    const [uDoc,sDoc] = FirebaseDocument.subscription(userDoc, s, {
+        attributePath:  "attributes.profile.data.name",
+        destinationPath: "attributes.roles." + uid + ".name"
+    })
     const b = writeBatch(db)
-    b.set(s.ref, s.saveObject())
+    b.set(sDoc.ref, sDoc.saveObject())
     b.set(temp.ref, temp.saveObject())
+    b.set(uDoc.ref, uDoc.saveObject())
     b.update(userDoc.ref, {
         "attributes.stakeId": s.ref.id,
         "attributes.stakeRole": "Stake President"
     })
     try {
         await b.commit()
-        
-        await FirebaseDocument.subscriptionTransaction(userDoc.ref, s.ref, {
-            attributePath:  "attributes.profile.data.name",
-            destinationPath: "attributes.role." + uid + ".name"
-        })
         return [s, temp]
     } catch (err) {
         console.warn("Error Creating stakes")
@@ -156,11 +155,6 @@ async function createWards(uid:string, db:Firestore, stakeDoc:FirebaseDocument, 
 async function createMembers(db:Firestore, wardDocs:FirebaseDocument[], tempDocs:FirebaseDocument[], stakeDoc:FirebaseDocument, tempStake: FirebaseDocument){
     
     try {
-        // const stakeMembers = await promiseIterator(wardDocs.map(async ward => {
-        //     await promiseIterator(range(2).map( async() =>{
-        //         return await createMember(db, ward, stakeDoc)
-        //     }))
-        // }))
 
         const stakeMembers:any[] = []
         for(let ward of wardDocs){
@@ -188,20 +182,23 @@ async function createMember(db: Firestore, wardDoc:FirebaseDocument, stakeDoc: F
         gender: faker.name.gender(true),
         birthdate: faker.date.past(100)       
     })
+    const [wDoc, mDoc] = FirebaseDocument.subscription(wardDoc, member, {
+        attributePath: "attributes.name",
+        destinationPath: "attributes.ward"
+    })
+    const [sDoc] = FirebaseDocument.subscription(stakeDoc, member, {
+        attributePath: "attributes.name",
+        destinationPath: "attributes.stake"
+    })
+
     const b =  writeBatch(db)
-    b.set(member.ref, member.saveObject())
+    b.set(mDoc.ref, mDoc.saveObject())
+    b.set(wDoc.ref, wDoc.saveObject())
+    b.set(sDoc.ref, sDoc.saveObject())
     b.update(wardDoc.ref, {"attributes.memberCount": increment(1)})
     b.update(stakeDoc.ref, {"attributes.memberCount": increment(1)})
     try {
         await b.commit()
-        await FirebaseDocument.subscriptionTransaction(wardDoc.ref, member.ref, {
-            attributePath: "attributes.name",
-            destinationPath: "attributes.ward"
-        })
-        await FirebaseDocument.subscriptionTransaction(stakeDoc.ref, member.ref, {
-            attributePath: "attributes.name",
-            destinationPath: "attributes.stake"
-        })
         return member 
     } catch (err) {
         console.warn("Error Creating Member")

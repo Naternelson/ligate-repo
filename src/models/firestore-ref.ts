@@ -4,6 +4,31 @@ import DocumentDataModel, { Attributes, SubscriberObject } from "./data-model";
 import FirebaseCollection from "./firestore-collection";
 
 export default class FirebaseDocument{
+    
+    static subscription(provider: FirebaseDocument, subscriber:FirebaseDocument, subObject: Omit<SubscriberObject, "documentPath">){
+        const currentUser = getAuth().currentUser 
+        if(!currentUser) throw new Error("Must have a signed in user")
+        const uid = currentUser.uid 
+
+        const providerValue = provider.data.fromDotNotation(subObject.attributePath)
+        if(!providerValue) throw new Error("No value found at attributePath")
+
+        const currentSubscibers = (provider.data.fromDotNotation("subscribers") || []) as SubscriberObject[]
+
+        const subscriptionUpdate = {
+            [subObject.destinationPath]: {referencePath: provider.ref.path, data: providerValue},
+            "meta.updatedOn": serverTimestamp(),
+            "meta.updatedBy": uid
+        }
+        const providerUpdate = {
+            "subscribers": [...currentSubscibers, {...subObject, documentPath: subscriber.ref.path}],
+            "meta.updatedOn": serverTimestamp(),
+            "meta.updatedBy": uid
+        }
+        subscriber.data.update(subscriptionUpdate)
+        provider.data.update(providerUpdate)
+        return [provider, subscriber]
+    }
     static async subscriptionTransaction(provider:DocumentReference, subscriber:DocumentReference, subObject: Omit<SubscriberObject, "documentPath">){
         await runTransaction(getFirestore(), async(t) => {
             const currentUser = getAuth().currentUser 

@@ -56,6 +56,17 @@ export default class DocumentDataModel{
             return obj[nextLayer]
         },this.toObj() as any)
     }
+    update(obj:{[key:string|symbol]: any}){
+        for(let key in obj){
+            const sep = key.split(".")
+            sep.reduce((updateObj:any, nextLayer:any, currentIndex, arr)=>{
+                if(currentIndex === (arr.length -1)) return updateObj[nextLayer] = obj[key]
+                if(updateObj[nextLayer] === undefined) updateObj[nextLayer] = {}
+                return updateObj[nextLayer]
+            },this)
+        }   
+        return this 
+    }
     addSubcollection(string:string){
         this.subcollections.push(string)
         return this 
