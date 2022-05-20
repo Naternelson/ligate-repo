@@ -67,13 +67,24 @@ export default class DocumentDataModel{
         }   
         return this 
     }
+    remove(str:string){
+        const sep = str.split(".")
+            sep.reduce((updateObj:any, nextLayer:any, currentIndex, arr)=>{
+                if(updateObj[nextLayer] === undefined) return undefined
+                if(currentIndex === (arr.length -1)) return delete updateObj[nextLayer]
+                return updateObj[nextLayer]
+            },this.toObj() )
+    }
     addSubcollection(string:string){
-        this.subcollections.push(string)
+        const set = new Set(this.subcollections)
+        set.add(string)
+        this.subcollections = Array.from(set)
         return this 
     }
     removeSubcollection(string:string){
-        const index = this.subcollections.indexOf(string)
-        if(index > -1) this.subcollections.splice(index,0)
+        const set = new Set(this.subcollections)
+        set.delete(string)
+        this.subcollections = Array.from(set)
         return this 
     }
     addPermisssion(permissions: {[uid:string]: PermissionValue}){
