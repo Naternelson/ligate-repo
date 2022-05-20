@@ -1,6 +1,6 @@
 import { DocumentReference, getFirestore, runTransaction} from "firebase/firestore";
 import DocumentDataModel, { DataModel } from "./data-model";
-import FirebaseDocument from "./firestore-ref";
+import FirebaseDocument from "./firebase-document";
 
 interface CommitObject{
     set: {[id:string]: FirebaseDocument},
