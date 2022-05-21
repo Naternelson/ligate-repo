@@ -1,5 +1,5 @@
 import { ArrowRight, Print } from "@mui/icons-material";
-import { Box, BoxProps, Button, ButtonProps, Menu, MenuItem, MenuProps, Paper, PaperProps, Tooltip, Typography, TypographyProps } from "@mui/material";
+import { Box, BoxProps, Button, ButtonProps, Menu, Stack, MenuProps, Paper, PaperProps, Tooltip, Typography, TypographyProps } from "@mui/material";
 import { useState } from "react";
 import Column from "../../../components/column";
 import MenuListItem from "../../../components/menu-item";
@@ -13,6 +13,9 @@ export default function Overview(){
         <Column {...columnProps}>
             <Row>
                 <StakeFinderBar/>
+            </Row>
+            <Row>
+                <StakeList/>
             </Row>
         </Column>
     )
@@ -97,5 +100,17 @@ function PrintReportButton(){
                 </Column>
             </Menu>
         </>
+    )
+}
+
+
+function StakeList(){
+    return (
+        <Paper>
+            <Stack>
+                <Paper>Hi there</Paper>
+            </Stack>
+        </Paper>
+
     )
 }
