@@ -1,6 +1,7 @@
 import { BoxProps, Box } from "@mui/material";
 import { PropsWithChildren } from "react";
 
+
 export default function Row(props:PropsWithChildren<BoxProps>){
     const {children, ...p} = props 
     const bProps:BoxProps = {

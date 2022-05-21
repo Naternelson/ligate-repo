@@ -39,7 +39,7 @@ export function AppTabs(props:PropsWithChildren<TabsProps>){
         context.setCount(count)
     },[count])
     return (
-        <Tabs value={context.index}>
+        <Tabs sx={{p:0}} value={context.index}>
             {children && Children.map(children, (child, index) => {
                 if(isValidElement(child)) return cloneElement(child, {onClick:() => context.setIndex(index)})
                 return null

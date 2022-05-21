@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { collection, getDocs, getFirestore, onSnapshot, query, where } from "firebase/firestore"
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react"
 import DocumentDataModel from "../../models/data-model"
-import FirebaseDocument from "../../models/firestore-ref"
+import FirebaseDocument from "../../models/firebase-document"
 
 const Context = createContext<any>(undefined)
 export default function ReportListener(props:PropsWithChildren<{}>){

@@ -1,14 +1,10 @@
-import { ArrowRight } from "@mui/icons-material";
-import { Box, BoxProps, ButtonBase, ListItemText, Typography, ListItem, Paper, TextField, Stack, ListItemIcon, Tabs, Tab, Divider, Button } from "@mui/material";
-import { useState } from "react";
+import { Box, BoxProps, Typography, Divider } from "@mui/material";
 import AppTabWrapper, { AppTabs, AppTab, TabPanel } from "../../../components/app-tabs";
 import Column from "../../../components/column";
-import ReportListener, { useReportContext } from "../../../listeners/report-view";
-import { clear } from "../../../models/firestore-test";
-import seed from "../../../models/seed";
+import ReportListener from "../../../listeners/report-view";
+import Overview from "./overview";
 
 export default function ConnectionsView(){
-    const [active, setActive] = useState<string|null>(null)
     const wrapperProps:BoxProps = {
         overflow: 'auto'
     }
@@ -19,14 +15,8 @@ export default function ConnectionsView(){
                 <AppTabWrapper>
                     <TitleBlock/>
                     <TabPanel value={0}>
-                        <OverviewBlock/>
+                        <Overview/>
                     </TabPanel>
-                    {/* <Paper sx={{m:3}}>
-                        <Row>
-                            <StakeList active={active} setActive={setActive}/>
-                            <MemberSection  active={active}/>
-                        </Row>
-                    </Paper> */}
                     </AppTabWrapper>
                 </Column>
             </Box>
@@ -37,7 +27,8 @@ export default function ConnectionsView(){
 
 function TitleBlock(){
     const wrapperProps:BoxProps = {
-        p:3
+        mx:3,
+        mt:3
     }
     return (
         <Box {...wrapperProps}>
@@ -53,67 +44,3 @@ function TitleBlock(){
     )
 }
 
-function OverviewBlock(){
-    return (
-        <Box sx={{mx:5}}>
-            <Button onClick={()=> seed() }>Seed</Button>
-            <Button onClick={()=> clear() }>Clear</Button>
-        </Box>
-    )
-}
-
-
-
-interface StakeListProps{
-    setActive: any, 
-    active:null |string
-}
-function StakeList(props:StakeListProps) {
-    const {stakes} = useReportContext()
-    if(!stakes) return null
-    return (
-            <Column sx={{p:2}} gap={1} >
-                <Typography variant="body2" align="center">Stakes</Typography>
-                <TextField variant="standard" margin={"none"} size={"small"} inputProps={{sx: {fontSize: '.85rem',p:.25}}} placeholder="search"/>
-                <Stack  gap={0.1}>
-                    {Object.values(stakes).map((obj:any, index:number, arr:any[]) => {
-                        const isLast = (index === (arr.length-1))
-                        return <ButtonBase onClick={()=> props.setActive(obj.id)} key={obj.id} sx={{width: '100%'}}>
-                            <ListItem divider={!isLast} sx={{py:0}} selected={props.active === obj.id}>
-                                <ListItemText primaryTypographyProps={{sx:{fontSize: '.8rem'}}} primary={obj.name.data}/>
-                                <ListItemIcon><ArrowRight/></ListItemIcon>
-                            </ListItem>
-                        </ButtonBase>
-                    })}
-                </Stack>
-
-            </Column>
-
-
-    )
-}
-
-function MemberSection(props:any){
-
-    const [view, setView] = useState(0)
-    return (
-        <Box>
-            <Typography>Members</Typography>
-            <Tabs value={view}onChange={(_e:any, newValue:number) => setView(newValue)}>
-                <Tab label={"Inside"}/>
-                <Tab label={"Outside"}/>
-            </Tabs>
-            {view === 0 && <MyMembers/>}
-        </Box>
-    )
-}
-
-function MyMembers(){
-    const {myMembers}  = useReportContext()
-
-    return (
-        <Stack>
-
-        </Stack>
-    )
-}
