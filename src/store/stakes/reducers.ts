@@ -1,9 +1,6 @@
 import { StakesState } from "./slice"
 import { CaseReducer } from "../types"
 import { StakeState } from "../current-stake/slice"
-import { createSelector } from "@reduxjs/toolkit"
-import { useSelector } from "react-redux"
-import { useMemo } from "react"
 
 type Reducer<T> = CaseReducer<T, StakesState>
 

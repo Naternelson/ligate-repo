@@ -13,11 +13,12 @@ export type StakeType =  null | "Standard" | "YSA" | "Married Student" | "Single
 export interface StakeState{
     loading: boolean, 
     name: string | null,
-    type: StakeType
+    type: StakeType,
+    id: string|null, 
     language?: string | null, 
     address: null | {
         street: string
-        secondary:string, 
+        secondary?:string, 
         city: string,  
         state: string, 
         zipcode:string 
@@ -30,7 +31,8 @@ export interface StakeState{
 
 const initialState: StakeState = {
     loading: false, 
-    name: null, 
+    name: null,
+    id: null,  
     address: null,
     type: null,  
     roles: {}
