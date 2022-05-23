@@ -10,7 +10,7 @@ export interface UnitRole {
 
 export type StakeType =  null | "Standard" | "YSA" | "Married Student" | "Single Adult" | "Special Language" | "Other"
 
-export interface CurrentStakeState{
+export interface StakeState{
     loading: boolean, 
     name: string | null,
     type: StakeType
@@ -28,7 +28,7 @@ export interface CurrentStakeState{
 }
 
 
-const initialState: CurrentStakeState = {
+const initialState: StakeState = {
     loading: false, 
     name: null, 
     address: null,

@@ -1,16 +1,16 @@
-import { CurrentStakeState } from "./slice"
+import { StakeState } from "./slice"
+import { CaseReducer } from "../types"
 
-type ActionPayload<T> = {type: string, payload:T}
-type CaseReducer<T> = (state: CurrentStakeState, action:ActionPayload<T>) => CurrentStakeState
+type Reducer<T> = CaseReducer<T, StakeState>
 
-const modify: CaseReducer<Partial<CurrentStakeState>> = (state, action) => {
+const modify: Reducer<Partial<StakeState>> = (state, action) => {
     return {...state, ...(action.payload|| {})}
 }
-const startLoad: CaseReducer<undefined> = (state) => {
+const startLoad: Reducer<undefined> = (state) => {
     state.loading = true 
     return state 
 }
-const endLoad: CaseReducer<undefined> = (state) => {
+const endLoad: Reducer<undefined> = (state) => {
     state.loading = false 
     return state 
 }
