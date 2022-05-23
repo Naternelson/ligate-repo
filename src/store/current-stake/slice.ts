@@ -8,7 +8,7 @@ export interface UnitRole {
     name: string 
 }
 
-export type StakeType =  null | "Standard" | "YSA" | "Married Student" | "Single Adult" | "Special Language" | "Other"
+export type StakeType =  null | "Standard" | "YSA" | "Married Student" | "Single Adult" | "Special Language" | "Temp" | "Other"
 
 export interface StakeState{
     loading: boolean, 

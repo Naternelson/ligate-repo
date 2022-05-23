@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSelector, createSlice } from "@reduxjs/toolkit"
+import { useStore } from "react-redux"
 import {StakeState} from "../current-stake/slice"
 import reducers from "./reducers"
 
@@ -19,3 +20,4 @@ const initialState: StakesState = {
 
 const slice = createSlice({initialState, name: 'stakes', reducers})
 export const stakesReducer = slice.reducer
+export const stakesAction = slice.actions

@@ -1,11 +1,11 @@
 import faker from "@faker-js/faker";
 import { StakeState } from "./current-stake/slice";
 import { StakesState } from "./stakes/slice";
-import { HumanName, UserState } from "./user/slice";
+import { Gender, HumanName, UserState } from "./user/slice";
 
-function fakeName():HumanName{
+export function fakeName(gender:"male" | "female" = "male"):HumanName{
     const name = {
-        first: faker.name.firstName(),
+        first: faker.name.firstName(gender),
         middle: faker.name.middleName(),
         last: faker.name.lastName(), 
         display: ''   
@@ -14,16 +14,16 @@ function fakeName():HumanName{
     return name 
 }
 
-function fakeAge(from:number, to: number):UserState["birthdate"]{
+export function fakeAge(from:number, to: number):UserState["birthdate"]{
     const afterDate = new Date()
     afterDate.setFullYear(afterDate.getFullYear()-to)
 
     const beforeDate = new Date()
     beforeDate.setFullYear(beforeDate.getFullYear() -from)
-    return faker.date.between(afterDate,beforeDate)
+    return faker.date.between(afterDate,beforeDate).toLocaleDateString()
 }
 
-function fakeAddress(state?:string): StakeState["address"]{
+export function fakeAddress(state?:string): StakeState["address"]{
     let s = state || faker.address.stateAbbr()
     return {
         street: faker.address.streetAddress(),
@@ -51,7 +51,7 @@ const currentStake: StakeState = {
     name: `${faker.address.streetName()} YSA Stake`,
     language: "English",
     type: 'YSA',
-    address: fakeAddress(),
+    address: fakeAddress("UT"),
     roles:{
         [user.uid as string]: {
             title: "President",
@@ -61,19 +61,16 @@ const currentStake: StakeState = {
 }
 
 function randomStake():StakeState{
+    const type = rndFromList("YSA", "Standard", "Special Language", "Married Student", "Single Adult", "Temp")
+    
     return {
         loading: false, 
         id: faker.random.alphaNumeric(10),
         name: `${faker.address.streetName()} Stake`,
-        language: "English",
-        type: 'Standard',
-        address: fakeAddress(),
-        roles:{
-            [user.uid as string]: {
-                title: "President",
-                name: user.name?.display || ""
-            }
-        }
+        language: type === "Special Language" ? "Spanish" : "English",
+        type: type,
+        address: fakeAddress("UT"),
+        roles:{}
     }
 }
 function range(to:number, from:number = 0){
@@ -82,6 +79,10 @@ function range(to:number, from:number = 0){
     return arr 
 }
 
+function rndFromList(...arr:any[]){
+    const rndIndex = Math.floor(Math.random() * arr.length) 
+    return arr[rndIndex]
+}
 
 const stakes:StakesState = {
     loading: false, 

@@ -16,10 +16,18 @@ const addStakes:Reducer<{[id:string]: StakeState}> = (state, action) => {
     return {...state, data: {...state.data, ...action.payload}}
 }
 const removeStakes:Reducer<string[]> = (state, action) => {
-    action.payload.forEach(s => delete state.data[s])
+    const ids = new Set(Object.keys(state.data))
+    action.payload.forEach((s:string) => ids.delete(s))
+    const data = Array.from(ids).reduce((obj, id) => ({...obj, [id]:state.data[id]}),{})
+    state.data = data 
     return state 
 }
-const selectAll:Reducer<unknown> = state => {
+const selectAll:Reducer<undefined> = state => {
+    state.selected = Object.keys(state.data).reduce((obj:any, id) =>({...obj, [id]:true}),{})
+    return state 
+}
+const unselectAll: Reducer<undefined> = state => {
+    state.selected = {}
     return state 
 }
 const selectStakes:Reducer<string[]> = (state, action) => {
@@ -54,7 +62,7 @@ const clearFocus:Reducer<undefined> = state => {
     return {...state, focus: null}
 }
 
-const reducers =  {startLoad, endLoad, addStakes, removeStakes, selectAll, selectStakes, unselectStakes, toggleStakes, focusStake, clearFocus}
+const reducers =  {startLoad, endLoad, addStakes, removeStakes, selectAll, selectStakes, unselectStakes, toggleStakes, focusStake, clearFocus, unselectAll}
 
 
 
