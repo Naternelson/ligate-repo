@@ -8,12 +8,12 @@ export interface UnitRole {
     name: string 
 }
 
-export type StakeType =  null | "Standard" | "YSA" | "Married Student" | "Single Adult" | "Special Language" | "Temp" | "Other"
+export type UnitType =  null | "Standard" | "YSA" | "Married Student" | "Single Adult" | "Special Language" | "Temp" | "Other"
 
 export interface StakeState{
     loading: boolean, 
     name: string | null,
-    type: StakeType,
+    type: UnitType,
     id: string|null, 
     language?: string | null, 
     address: null | {

@@ -44,7 +44,7 @@ function ProfileIcon(){
     }
     const display = String(name?.first || "" + name?.last || "")
     return (
-        <ButtonBase onClick={() => nav("/settings")}>
+        <ButtonBase disableRipple onClick={() => nav("/settings")}>
             <Tooltip arrow={true} title="User Profile">
                 <Box>
                     {profileImg && <Avatar src={profileImg} alt="profile"/>}

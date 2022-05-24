@@ -1,5 +1,6 @@
 import faker from "@faker-js/faker";
 import { StakeState } from "./current-stake/slice";
+import { initializeCalling, initializeMember, initializeMembersState } from "./members/slice";
 import { StakesState } from "./stakes/slice";
 import { Gender, HumanName, UserState } from "./user/slice";
 
@@ -73,10 +74,8 @@ function randomStake():StakeState{
         roles:{}
     }
 }
-function range(to:number, from:number = 0){
-    const arr:number[] = []
-    for(let i = from; i<to; i++)arr.push(i)
-    return arr 
+function range(to:number){
+    return Array.from(Array(to).keys())
 }
 
 function rndFromList(...arr:any[]){
@@ -91,10 +90,45 @@ const stakes:StakesState = {
     data: range(10).map(() => randomStake()).reduce((obj, stake) =>  ({...obj, [stake.id as string]: stake}),{})
 }
 
+const members = Object.values(stakes.data).reduce((membersObject, stake)=>{
+    const calling = initializeCalling({title: "Teacher"})
+    const activity = {
+        id: faker.random.alphaNumeric(10),
+        value: Math.ceil(Math.random()*10),
+        date: faker.date.past(5).toLocaleDateString()
+    }
+    const member = initializeMember({
+        name: fakeName(),
+        ward: {
+            id: faker.random.alphaNumeric(10),
+            name: `${faker.address.streetName()} Ward`,
+            type: "Standard",
+            city: stake.address?.city || faker.address.cityName(),
+            state: stake.address?.state || "UT"
+        },
+        stake: {
+            id: stake.id ||"",
+            type: stake.type,
+            name: stake.name||"", 
+            city: stake.address?.city || "",
+            state: stake.address?.state || "UT"
+        },
+        callingId: calling.id,
+        callings: {[calling.id]: calling},
+        activityId: activity.id, 
+        activityHistory: {[activity.id]: activity}
+    })
+    return {...membersObject, [member.id]: member}
+},{})
+
+
+
+
 export const preloadedStore = {
     currentStake: {
         stake: currentStake
     },
+    members: initializeMembersState(members),
     stakes, 
     user
 }

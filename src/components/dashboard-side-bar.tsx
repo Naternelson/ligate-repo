@@ -10,6 +10,7 @@ export default function DashboardSideBar(){
             height: '100%',
             bgcolor: '#1d3b59',
             color: 'white',
+            borderRadius: 0
         }
     }
     return (

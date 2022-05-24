@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Column from "../../../components/column";
 import MenuListItem from "../../../components/menu-item";
 import Row from "../../../components/row";
-import { StakeType } from "../../../store/current-stake/slice";
+import { UnitType } from "../../../store/current-stake/slice";
 import { stakesAction} from "../../../store/stakes/slice";
 
 export default function Overview(){
@@ -239,7 +239,7 @@ function StakeItem(props: StakeListItem){
                     <Grid item xs={8} md={4}>
                         <ButtonBase sx={{fontSize: 'inherit'}} disableRipple>
                             <Row alignItems= 'center' gap={1}>
-                                <StakeTypeIcon type={stake.type} language={stake.language}/>
+                                <UnitTypeIcon type={stake.type} language={stake.language}/>
                                 {stake.name}
                                 
                             </Row>
@@ -270,8 +270,8 @@ function StakeItem(props: StakeListItem){
 }
 
 
-type StakeTypeIconProps = {type: Exclude<StakeType, null>, language?:string}
-function StakeTypeIcon(props:StakeTypeIconProps){
+type UnitTypeIconProps = {type: Exclude<UnitType, null>, language?:string}
+function UnitTypeIcon(props:UnitTypeIconProps){
     const {type} = props
     let title:string = props.type
     let displayText = ""
