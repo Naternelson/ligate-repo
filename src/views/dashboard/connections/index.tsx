@@ -2,6 +2,7 @@ import { Box, BoxProps, Typography, Divider } from "@mui/material";
 import AppTabWrapper, { AppTabs, AppTab, TabPanel } from "../../../components/app-tabs";
 import Column from "../../../components/column";
 import ReportListener from "../../../listeners/report-view";
+import InsideConnections from "./inside";
 import Overview from "./overview";
 
 export default function ConnectionsView(){
@@ -16,6 +17,9 @@ export default function ConnectionsView(){
                     <TitleBlock/>
                     <TabPanel value={0}>
                         <Overview/>
+                    </TabPanel>
+                    <TabPanel value={1}>
+                        <InsideConnections/>
                     </TabPanel>
                     </AppTabWrapper>
                 </Column>

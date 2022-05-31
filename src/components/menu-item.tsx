@@ -6,7 +6,7 @@ export default function MenuListItem(props:PropsWithChildren<MenuItemProps>){
 
     const menuItemProps:MenuItemProps = {
         ...mi,
-        sx:{fontSize: 'inherit', ...(props.sx||{})},
+        sx:{fontSize: 'inherit', "&:hover": {bgcolor: 'rgba(0,0,0,.1)'}, ...(props.sx||{})},
     }
     return (
     <MenuItem {...menuItemProps}>

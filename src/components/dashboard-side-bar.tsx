@@ -55,8 +55,8 @@ function ButtonLink(props: ButtonLinkProps){
     const active = location.pathname === props.to
     const buttonProps:IconButtonProps = {
         onClick: () => navigate(props.to),
-        sx: {textAlign: 'center', width: "100%", color:  active ? 'rgba(255,255,255,.90)' : 'rgba(255,255,255,.40)'}
-
+        sx: {textAlign: 'center', width: "100%", color:  active ? 'rgba(255,255,255,.90)' : 'rgba(255,255,255,.40)'},
+        disableRipple:true
     }
     return (
         <IconButton {...buttonProps}>

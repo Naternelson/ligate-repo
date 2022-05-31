@@ -5,7 +5,7 @@ import { preloadedStore } from "./seed";
 import { stakesReducer } from "./stakes/slice";
 import { userReducer } from "./user/slice";
 
-export default configureStore({
+const store = configureStore({
     reducer: combineReducers({
         currentStake: combineReducers({
             stake: currentStakeReducer
@@ -16,4 +16,7 @@ export default configureStore({
     }),
     preloadedState: preloadedStore
 })
+export default store 
 
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

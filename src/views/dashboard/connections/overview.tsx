@@ -320,8 +320,8 @@ function UnitTypeIcon(props:UnitTypeIconProps){
     return (
         
             <Row {...boxProps}>
-                <Tooltip title={title} placement="right">
-                    <span>{displayText}</span>
+                <Tooltip arrow={true} title={title} placement="right">
+                    <Typography sx={{fontSize:".5rem", lineHeight:1}}>{displayText}</Typography>
                 </Tooltip>
             </Row>
         
