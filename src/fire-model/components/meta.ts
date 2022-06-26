@@ -21,7 +21,7 @@ export default class Meta extends BaseClass implements MetaClassAttributes  {
     deleteOn: string | Date | null = null 
     deleteBy: string | null = null 
 
-    constructor(props: Partial<MetaClassAttributes>){
+    constructor(props?: Partial<MetaClassAttributes>){
         super()
         for(const key in props){
             const c = props[key as keyof MetaClassAttributes]
