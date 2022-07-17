@@ -8,6 +8,7 @@ import HomeView from "../views/dashboard/home";
 import OnboardLayout from "../views/onboard";
 import NewUserView from "../views/onboard/user";
 import { seedDb } from "../backend/seed";
+import MemberTable from "../views/dashboard/member-table";
 
 export default function AppRouter(){
     return (
@@ -16,7 +17,7 @@ export default function AppRouter(){
                 <Route path="/"element={<DashboardLayout/>}>
                     <Route index element={<HomeView/>}/>
                     <Route path="connections" element={<ReportView/>}/>
-                    
+                    <Route path="table" element={<MemberTable/>}/>
                     <Route path="*" element={<Box>Hi there</Box>}/>
                 </Route>
                 <Route path="/onboard" element={<OnboardLayout/>}>

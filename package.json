@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.0",
+    "@mui/x-data-grid": "^5.12.3",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -25,6 +26,7 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
     "typescript": "^4.6.4",
+    "usa-states": "^0.0.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
