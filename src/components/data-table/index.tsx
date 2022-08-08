@@ -82,7 +82,7 @@ function HeaderCell(props:{column: ColumnDef, api: DataTableApi}){
     const minWidth = props.column.minWidth 
     const maxWidth = props.column.maxWidth 
     const flex = props.column.flex
-    const name = typeof props.column.headerName ===  || props.column.field 
+    const name = typeof props.column.headerName === 'string'  || props.column.field 
     return (
         <Grid item sx={{span, justifySelf, alignItems, minWidth, maxWidth, flex}}>
             {name}

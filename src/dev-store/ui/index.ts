@@ -3,21 +3,21 @@ import { useSelector } from "react-redux";
 import { GlobalState } from "..";
 
 const initialState: {
-    homeStake: string | null
+    homeUnit: string | null
     featuredStake: string | null 
     featuredWard: null | string 
     selected: {[id: string]: boolean},
-    allSelected: boolean 
+    allSelected: boolean
     activeColumn: string | null 
     sortDirection: 'asc' | 'desc',
     loading: boolean,
     errorMessage: string[]
-} = {homeStake: null, featuredStake: null, featuredWard: null, selected: {}, activeColumn: null, allSelected: false,  sortDirection: 'asc', loading: false, errorMessage: []}
+} = {homeUnit: null, featuredStake: null, featuredWard: null, selected: {}, activeColumn: null, allSelected: false,  sortDirection: 'asc', loading: false, errorMessage: []}
 
 type State = typeof initialState
 
 const reducers = {
-    changeHomeStake: (state: State, action:PayloadAction<string>) => {state.homeStake = action.payload},
+    changeHomeUnit: (state: State, action:PayloadAction<string>) => {state.homeUnit = action.payload},
     changeFeaturedStake: (state: State, action:PayloadAction<string>) => {state.featuredStake = action.payload},
     toggleMembers: (state: State, action:PayloadAction<string[]>) => {action.payload.forEach(id => state.selected[id] = !state.selected[id])},
     selectMembers: (state:State, action:PayloadAction<string[]>) => {action.payload.forEach(id => state.selected[id] = true)},

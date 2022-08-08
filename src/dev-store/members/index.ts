@@ -17,7 +17,7 @@ const initialState: {
     }
 } = {}
 type State = typeof initialState 
-type Member = typeof initialState[keyof State]
+export type Member = typeof initialState[keyof State]
 
 const reducers = {
     updateMembers: (state:State, action:PayloadAction<State>) => {state = {...state, ...action.payload}},
@@ -27,13 +27,15 @@ const reducers = {
     changeCalling: (state:State, action:PayloadAction<{calling:Member['calling'], ids: string[]}>) => {action.payload.ids.forEach(id => state[id].calling = action.payload.calling)},
     toggleMemberLoad: (state:State, action: PayloadAction<string>) => {state[action.payload].loading = !state[action.payload].loading},
     startMemberLoad: (state:State, action:PayloadAction<string>/**Member iD */) => {state[action.payload].loading = true },
-    endMemberLoad: (state:State, action:PayloadAction<string>) => {state[action.payload].loading = false }
+    endMemberLoad: (state:State, action:PayloadAction<string>) => {state[action.payload].loading = false },
+    reset: () => initialState
 }
 
 const slice = createSlice({initialState, name: 'members', reducers})
 
 export default slice 
 export const membersReducer = slice.reducer 
+export const memberActions = slice.actions
 
 export const useMemberSelector = (id?:string, cb?:(s:Member) => unknown) => {
     return useSelector((s:GlobalState) => {

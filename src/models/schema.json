@@ -1,0 +1,100 @@
+{
+    "root": "ligate.com",
+    "description": "ligate APi schema",
+    "subDirectories": {
+        "users": {
+            "variable": {
+                "id": "USER_ID",
+                "type": "User Model"
+            }
+        },
+        "units": {
+            "variable": {
+                "id": "UNIT_ID",
+                "type": "Unit Model",
+                "subDirectories": {
+                    "meta": {
+                        "access": {
+                            "id": "access",
+                            "type": "UnitUsers Model",
+                            "description": "Outlines which users have access rights to"
+                        }
+                    },
+                    "access-requests": {
+                        "variable": {
+                            "id": "REQUEST_ID",
+                            "type": "UnitAccessRequest Model",
+                            "description": "Requests by users to certain units to become an admin"
+                        }
+                    }
+                }
+            }
+        },
+        "members": {
+            "variable": {
+                "id": "MEMBER_ID", 
+                "type": "Member Model",
+                "subDirectories": {
+                    "callings": {
+                        "variable": {
+                            "id": "CALLING_ID", 
+                            "type": "CallingHistory Model",
+                            "description": "A History of this member's past callings and the units that was assigned to"
+                        }
+                    },
+                    "records": {
+                        "variable": {
+                            "id": "RECORD_ID",
+                            "type": "RecordHistory Model",
+                            "description": "A History of this member's past wards/branches"
+                        }
+                    },
+                    "recommends": {
+                        "variable": {
+                            "id": "RECOMMEND_ID",
+                            "type": "RecommendHistory Model",
+                            "description": "A History of this member's past temple recommends"
+                        }
+                    }
+                }
+            }
+            
+        },
+        "subscription-requests": {
+            "variable": {
+                "id": "REQUEST_ID",
+                "type": "SubscriptionRequest Model"
+            }
+        },
+        "subscriptions": {
+            "variable": {
+                "id": "SUBSCRIPTION_ID",
+                "type": "Subscription Model"
+            }
+        },
+        "chatrooms": {
+            "variable": {
+                "id": "ROOM_ID",
+                "type": "ChatRoom Model",
+                "subDirectories": {
+                    "chats": {
+                        "id": "CHAT_ID",
+                        "type": "ChatMessage Model"
+                    }
+                }
+            }
+        },
+        "support-tickets": {
+            "variable": {
+                "id": "TICKET_ID",
+                "type": "Ticket Model",
+                "subDirectories": {
+                    "messages": {
+                        "id": "MESSAGE_ID",
+                        "type": "ChatMessage Model"
+                    }
+                }
+            }
+        }
+    }
+}
