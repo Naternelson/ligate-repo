@@ -55,13 +55,13 @@ export const stepWrapper = (unitsOfRecord: {ward:DocumentSnapshot<DocumentData>,
     }
 }
 
-export const createSubRequest = (params: ReturnType<typeof approvedParams>, config: StepWrapperConfig, unit: string):SubscriptionRequest =>{
+export const createSubRequest = (params: ReturnType<typeof approvedParams>, config: StepWrapperConfig, unit: string):any =>{
     const {hasRecords} = params
     let requestingUnit:UnitShortHand
     let recordUnit:UnitShortHand
 
     if(hasRecords) requestingUnit = config.foreignUnits[unit]
-    if(hasRecords) recordUnit = 
+    // if(hasRecords) recordUnit = 
 }
 
 export const extractControllingUnits = (controllingUnits:StepWrapperConfig["controllingUnits"]):MemberUnits => {
